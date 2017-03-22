@@ -5,14 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mvp.app.view.BaseView;
+import com.mvp.app.model.BaseModel;
 
 /**
  * Created by 史章华 on 2017/3/13.
  * 让Fragment使用方法和Activity相似
  * 方便Fragment与Activity以后的互相转换
  */
-public abstract class BaseFragment extends FixedOnActivityResultBugFragment implements BaseView {
+public abstract class BaseFragment extends FixedOnActivityResultBugFragment implements BaseModel {
     private View mView;
     /**
      * Fragment当前状态是否可见

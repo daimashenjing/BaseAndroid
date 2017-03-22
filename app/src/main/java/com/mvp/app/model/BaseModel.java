@@ -1,4 +1,4 @@
-package com.mvp.app.view;
+package com.mvp.app.model;
 
 
 import android.app.Activity;
@@ -9,7 +9,7 @@ import android.view.View;
  * Created by 史章华 on 2017/3/12.
  */
 
-public interface BaseView {
+public interface BaseModel {
     <T extends View> T getId(int id);
 
     <T extends View> T getId(int id, View parent);

@@ -7,12 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.mvp.app.view.BaseView;
+import com.mvp.app.model.BaseModel;
 
 /**
  * Created by 史章华 on 2017/3/13.
  */
-public abstract class BaseActivity extends AppCompatActivity implements BaseView {
+public abstract class BaseActivity extends AppCompatActivity implements BaseModel {
     AppManager mAppManager = AppManager.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
