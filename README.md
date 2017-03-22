@@ -1,38 +1,38 @@
-### Ö÷ÒªÌØĞÔ
-#### ÕâÊÇÒ»Ì×¿ª·¢µÄ»ù´¡¿ò¼Ü ·â×°ÁËÒ»Ğ©»ùÀàºÍ×î³£ÓÃ¹¤¾ßÀàµÄ·â×°
-Õû¸ö¿ò¼ÜÀ´Ô´ÓÚÍøÂçÉÏµÄÒ»Ğ©ÕûÀíºÍ×Ô¼ºµÄÀí½â ¡£¶¼ÊÇºÜ»ù´¡²¢ÇÒÊµÓÃµÄ¶«Î÷
-ÊÊºÏ³õÑ§ÕßµÄÏîÄ¿¿ò¼Ü´î½¨Ê¹ÓÃ
+### ä¸»è¦ç‰¹æ€§
+#### è¿™æ˜¯ä¸€å¥—å¼€å‘çš„åŸºç¡€æ¡†æ¶ å°è£…äº†ä¸€äº›åŸºç±»å’Œæœ€å¸¸ç”¨å·¥å…·ç±»çš„å°è£…
+æ•´ä¸ªæ¡†æ¶æ¥æºäºç½‘ç»œä¸Šçš„ä¸€äº›æ•´ç†å’Œè‡ªå·±çš„ç†è§£ ã€‚éƒ½æ˜¯å¾ˆåŸºç¡€å¹¶ä¸”å®ç”¨çš„ä¸œè¥¿
+é€‚åˆåˆå­¦è€…çš„é¡¹ç›®æ¡†æ¶æ­å»ºä½¿ç”¨
 
-1.ActivityÓëFragmentÖ®¼äµÄÒ»¾ä´úÂë»¥Ïà×ª»»
-2.AppManager¶ÔActivity¼ÓÔØµ½¶ÑÕ»ÖĞµÄ¹ÜÀí ·ÀÖ¹ÄÚ´æÒç³ö
-3.ActivityUtil¶ÔActivityÌø×ªµÄ·â×° ÒÔ¼°Ô¤ÉèÌø×ª¶¯»­
-4.Fragment½ÓÊÕonActivityResult·µ»ØµÄÊı¾İ
-5.SharedPreferencesµÄ·â×°ÒÔ¼°´æÈëÊı¾İµÄAES¼ÓÃÜ
-6.Log´òÓ¡µÄ·â×°
+1.Activityä¸Fragmentä¹‹é—´çš„ä¸€å¥ä»£ç äº’ç›¸è½¬æ¢
+2.AppManagerå¯¹ActivityåŠ è½½åˆ°å †æ ˆä¸­çš„ç®¡ç† é˜²æ­¢å†…å­˜æº¢å‡º
+3.ActivityUtilå¯¹Activityè·³è½¬çš„å°è£… ä»¥åŠé¢„è®¾è·³è½¬åŠ¨ç”»
+4.Fragmentæ¥æ”¶onActivityResultè¿”å›çš„æ•°æ®
+5.SharedPreferencesçš„å°è£…ä»¥åŠå­˜å…¥æ•°æ®çš„AESåŠ å¯†
+6.Logæ‰“å°çš„å°è£…
 
-ÔÚ¿ª·¢¹ı³ÌÖĞ¿ÉÄÜ»áÓöµ½¹¦ÄÜÄ£¿éµÄµ÷Õû£¬ActivityĞèÒª×ª»»ÎªFragment»òÕßÊÇFragmentĞèÒª×ª»»ÎªActivity¡£ ÔÚÕâ¸öÊ±ºòÎÒÃÇ¿ÉÄÜÒª¸Ä¶¯´óÁ¿µÄ´úÂëÀ´Íê³É£¬ Èç¹ûÎÒÃÇÔÚÒ»¿ªÊ¼¾Í¶¨ÒåºÃActivityÓëFragmentµÄÊÇÒªÓÃ·½·¨ÊÇÒ»ÖÂµÄ£¬ Õâ¸öÊ±ºòÎÒÃÇ¾ÍÖ»ĞèÒªÌæ»»ÎÒ¼Ì³ĞµÄ¸¸Àà¾ÍĞĞÁË¡£ Õâ¸öÊ±ºò¾ÍĞèÒª¶¨ÒåÒ»¸öºÃµÄBaseActivityÓëBaseFragment¡£
-### Ò»¡¢ActivityÓëFragmentÖ®¼äµÄÒ»¾ä´úÂë»¥Ïà×ª»»
-#### Fragment´úÂë
+åœ¨å¼€å‘è¿‡ç¨‹ä¸­å¯èƒ½ä¼šé‡åˆ°åŠŸèƒ½æ¨¡å—çš„è°ƒæ•´ï¼ŒActivityéœ€è¦è½¬æ¢ä¸ºFragmentæˆ–è€…æ˜¯Fragmentéœ€è¦è½¬æ¢ä¸ºActivityã€‚ åœ¨è¿™ä¸ªæ—¶å€™æˆ‘ä»¬å¯èƒ½è¦æ”¹åŠ¨å¤§é‡çš„ä»£ç æ¥å®Œæˆï¼Œ å¦‚æœæˆ‘ä»¬åœ¨ä¸€å¼€å§‹å°±å®šä¹‰å¥½Activityä¸Fragmentçš„æ˜¯è¦ç”¨æ–¹æ³•æ˜¯ä¸€è‡´çš„ï¼Œ è¿™ä¸ªæ—¶å€™æˆ‘ä»¬å°±åªéœ€è¦æ›¿æ¢æˆ‘ç»§æ‰¿çš„çˆ¶ç±»å°±è¡Œäº†ã€‚ è¿™ä¸ªæ—¶å€™å°±éœ€è¦å®šä¹‰ä¸€ä¸ªå¥½çš„BaseActivityä¸BaseFragmentã€‚
+### ä¸€ã€Activityä¸Fragmentä¹‹é—´çš„ä¸€å¥ä»£ç äº’ç›¸è½¬æ¢
+#### Fragmentä»£ç 
     public class TestFragment extends BaseFragment implements View.OnClickListener{
         Button TestOne, TestTwo;
-    
+
         @Override
         public void onInit(Bundle savedInstanceState) {
             setContentView(R.layout.activity_test);
             initUI();
             initEvent();
         }
-    
+
         private void initUI() {
             TestOne = getId(R.id.TestOne);
             TestTwo = getId(R.id.TestTwo);
         }
-    
+
         private void initEvent() {
             TestOne.setOnClickListener(this);
             TestTwo.setOnClickListener(this);
         }
-    
+
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -47,27 +47,27 @@
             }
         }
     }
-#### Activity´úÂë
+#### Activityä»£ç 
     public class TestActivity extends BaseActivity implements View.OnClickListener {
         Button TestOne, TestTwo;
-    
+
         @Override
         public void onInit(Bundle savedInstanceState) {
             setContentView(R.layout.activity_test);
             initUI();
             initEvent();
         }
-    
+
         private void initUI() {
             TestOne = getId(R.id.TestOne);
             TestTwo = getId(R.id.TestTwo);
         }
-    
+
         private void initEvent() {
             TestOne.setOnClickListener(this);
             TestTwo.setOnClickListener(this);
         }
-    
+
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -82,43 +82,43 @@
             }
         }
     }
-### ½áÂÛ
-¸ù¾İÉÏÃæµÄ´úÂë¿ÉÒÔ¿´³ö ÎÒÃÇÖ»ĞèÒªÍ¨¹ı¸Ä±ä¼Ì³Ğ¸¸Àà¾Í¿ÉÒÔÊµÏÖActivityÓëFragmentµÄ×ª»» ¡£
-ÎÒÃÇÔÚFragmentÀïÃæÊµÏÖÁËActivityµÄsetContentView·½·¨
+### ç»“è®º
+æ ¹æ®ä¸Šé¢çš„ä»£ç å¯ä»¥çœ‹å‡º æˆ‘ä»¬åªéœ€è¦é€šè¿‡æ”¹å˜ç»§æ‰¿çˆ¶ç±»å°±å¯ä»¥å®ç°Activityä¸Fragmentçš„è½¬æ¢ ã€‚
+æˆ‘ä»¬åœ¨Fragmenté‡Œé¢å®ç°äº†Activityçš„setContentViewæ–¹æ³•
 
-onCreate(Bundle savedInstanceState)Ìæ»»ÎªonInit(Bundle savedInstanceState)
+onCreate(Bundle savedInstanceState)æ›¿æ¢ä¸ºonInit(Bundle savedInstanceState)
 
-findViewById£¨int id£©Ìæ»»ÎªgetId£¨int id£©²¢ÇÒ²»ĞèÒªÀàĞÍµÄ×ª»»
+findViewByIdï¼ˆint idï¼‰æ›¿æ¢ä¸ºgetIdï¼ˆint idï¼‰å¹¶ä¸”ä¸éœ€è¦ç±»å‹çš„è½¬æ¢
 
 
-### ¶ş¡¢AppManager¶ÔActivity¼ÓÔØµ½¶ÑÕ»ÖĞµÄ¹ÜÀí
-Õâ¸öÀà²»±Ø¶àËµÁË ¡£
-´´½¨ActivityµÄÊ±ºò½²activityÑ¹Èë¶ÑÕ» ½áÊøµÄÊ±ºòµ¯³ö¶ÑÕ»É¾³ı¶ÑÕ»Êı¾İ¡£
-·½±ã¹ÜÀíÒÑ¿ªÆôµÄActivity
-×öÁËÒ»Ğ©ÓÅ»¯ ·ÀÖ¹ÄÚ´æÒç³ö
+### äºŒã€AppManagerå¯¹ActivityåŠ è½½åˆ°å †æ ˆä¸­çš„ç®¡ç†
+è¿™ä¸ªç±»ä¸å¿…å¤šè¯´äº† ã€‚
+åˆ›å»ºActivityçš„æ—¶å€™è®²activityå‹å…¥å †æ ˆ ç»“æŸçš„æ—¶å€™å¼¹å‡ºå †æ ˆåˆ é™¤å †æ ˆæ•°æ®ã€‚
+æ–¹ä¾¿ç®¡ç†å·²å¼€å¯çš„Activity
+åšäº†ä¸€äº›ä¼˜åŒ– é˜²æ­¢å†…å­˜æº¢å‡º
 
-### Èı¡¢ActivityUtil¶ÔActivityÌø×ªµÄ·â×° ÒÔ¼°Ô¤ÉèÌø×ª¶¯»­
-        			//ÆÕÍ¨Ìø×ª
+### ä¸‰ã€ActivityUtilå¯¹Activityè·³è½¬çš„å°è£… ä»¥åŠé¢„è®¾è·³è½¬åŠ¨ç”»
+        			//æ™®é€šè·³è½¬
                     ActivityUtil.next(getActivity(), AlbumActivity.class);
-                    //´ø²ÎÊıÌø×ª
+                    //å¸¦å‚æ•°è·³è½¬
                     Bundle extras = new Bundle();
-                    extras.putString("key","´«µİÊı¾İ");
+                    extras.putString("key","ä¼ é€’æ•°æ®");
                     ActivityUtil.next(getActivity(), AlbumActivity.class,extras);
-                    //´ø·µ»ØÖµÌø×ª
+                    //å¸¦è¿”å›å€¼è·³è½¬
                     ActivityUtil.next(getActivity(), AlbumActivity.class,extras,100);
-                    //Ìø×ª²¢½áÊøµ±Ç°Activity
+                    //è·³è½¬å¹¶ç»“æŸå½“å‰Activity
                     ActivityUtil.next(getActivity(), AlbumActivity.class,true);
-                    //Ìø×ª²¢ĞŞ¸ÄÄ¬ÈÏÇĞ»»¶¯»­
+                    //è·³è½¬å¹¶ä¿®æ”¹é»˜è®¤åˆ‡æ¢åŠ¨ç”»
                     ActivityUtil.next(getActivity(), AlbumActivity.class,R.anim.in_from_right,
                             R.anim.out_to_left);
-                    //·µ»Ø
+                    //è¿”å›
                     ActivityUtil.goBack(getActivity());
-                    //´ø²Î·µ»Ø
-                    ActivityUtil.goBackWithResult(getActivity(),100,extras); 
+                    //å¸¦å‚è¿”å›
+                    ActivityUtil.goBackWithResult(getActivity(),100,extras);
     				.......
 
 
-¿ÉÒÔ¶ÔÌø×ª¶¯»­Í³Ò»¹æ·¶µÄ¹ÜÀí
+å¯ä»¥å¯¹è·³è½¬åŠ¨ç”»ç»Ÿä¸€è§„èŒƒçš„ç®¡ç†
 
-ÆäËüµÄÎÒ¾Í²»Ò»Ò»½âËµÁË  ÏÂÔØÒ»·İÔ´Âë ×Ô¼º×ÁÄ¥Ò»ÏÂ°É   
-»¶Ó­ÌáÎÊ »¶Ó­¾ÀÕı »¶Ó­ÍÂ²Û
+å…¶å®ƒçš„æˆ‘å°±ä¸ä¸€ä¸€è§£è¯´äº†  ä¸‹è½½ä¸€ä»½æºç  è‡ªå·±ç¢ç£¨ä¸€ä¸‹å§
+æ¬¢è¿æé—® æ¬¢è¿çº æ­£ æ¬¢è¿åæ§½
