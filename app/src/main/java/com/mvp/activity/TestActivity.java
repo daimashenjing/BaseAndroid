@@ -36,7 +36,7 @@ public class TestActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.TestOne:
-                ActivityUtil.next(getActivity(), AlbumActivity.class);
+                ActivityUtil.next(getActivity(), MVPActivity.class);
                 break;
             case R.id.TestTwo:
                 ActivityUtil.next(getActivity(), AlbumActivity.class);

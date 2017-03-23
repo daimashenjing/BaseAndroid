@@ -1,9 +1,8 @@
-package com.mvp.view;
+package com.mvp.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -18,9 +17,8 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-import com.mvp.model.PhotoItem;
+import com.mvp.activity.bean.AlbumBean;
 import com.mvp.utils.ImageLoad;
-import com.mvp.utils.L;
 import com.mvp.utils.StringUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
@@ -36,10 +34,10 @@ import java.util.List;
 /**
  * 模仿探探 相册View
  */
-public class AlbumView extends ViewGroup implements OnTouchListener {
+public class AlbumListView extends ViewGroup implements OnTouchListener {
 
     private List<View> views = new ArrayList<>();
-    private List<PhotoItem> images = new ArrayList<>();
+    private List<AlbumBean> images = new ArrayList<>();
     //动画处于停止状态
     private boolean mAnimationEnd = true;
     // 第一个最大的view的宽高
@@ -101,15 +99,15 @@ public class AlbumView extends ViewGroup implements OnTouchListener {
         RootView = rootView;
     }
 
-    public AlbumView(Context context) {
+    public AlbumListView(Context context) {
         this(context, null);
     }
 
-    public AlbumView(Context context, AttributeSet attrs) {
+    public AlbumListView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public AlbumView(Context context, AttributeSet attrs, int defStyle) {
+    public AlbumListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         padding = dp2px(4, context);
         initUI();
@@ -328,21 +326,15 @@ public class AlbumView extends ViewGroup implements OnTouchListener {
         return statusHeight;
     }
 
-
-
-    public int getItemWidth() {
-        return ItemWidth;
-    }
-
-    public void setImages(List<PhotoItem> images) {
+    public void setImages(List<AlbumBean> images) {
         this.images = images;
         initUI();
     }
 
-    public List<PhotoItem> getImages() {
-        List<PhotoItem> temimages = new ArrayList<PhotoItem>();
-        for (PhotoItem Item : images) {
-            if (!StringUtils.isEmpty(Item.hyperlink)) {
+    public List<AlbumBean> getImages() {
+        List<AlbumBean> temimages = new ArrayList<AlbumBean>();
+        for (AlbumBean Item : images) {
+            if (!StringUtils.isEmpty(Item.imgUrl)) {
                 temimages.add(Item);
             }
         }
@@ -355,10 +347,10 @@ public class AlbumView extends ViewGroup implements OnTouchListener {
         for (int i = 0; i < images.size(); i++) {
             ImageView view = new ImageView(getContext());
             view.setScaleType(ScaleType.FIT_XY);
-            if (!StringUtils.isEmpty(images.get(i).hyperlink)) {
+            if (!StringUtils.isEmpty(images.get(i).imgUrl)) {
                 maxSize = i;
             }
-            ImageLoad.getInstance().loadPhotoImage(images.get(i).hyperlink, view);
+            ImageLoad.getInstance().loadPhotoImage(images.get(i).imgUrl, view);
             views.add(view);
             addView(view);
         }

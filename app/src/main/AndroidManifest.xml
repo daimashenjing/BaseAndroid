@@ -19,6 +19,9 @@
         <activity android:name="com.mvp.activity.AlbumActivity">
 
         </activity>
+        <activity android:name="com.mvp.activity.MVPActivity">
+
+        </activity>
     </application>
 
 </manifest>
