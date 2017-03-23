@@ -1,9 +1,12 @@
 package com.mvp.activity.presenter;
 
+import android.view.View;
+
 import com.mvp.activity.bean.AlbumBean;
 import com.mvp.activity.model.IAlbumModel;
 import com.mvp.activity.model.Impl.AlbumModel;
 import com.mvp.activity.view.AlbumView;
+import com.mvp.utils.L;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,5 +39,9 @@ public class AlbumPresenter {
         }
         albumModel.setList(items);
         albumView.loadData(albumModel.getList());
+    }
+
+    public void onItemClick(View view, int position, boolean Photo){
+        L.showMeg("position : "+position + ",Photo : " + Photo);
     }
 }

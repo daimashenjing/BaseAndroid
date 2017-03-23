@@ -93,6 +93,7 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
     /**
      * 为了兼容小米那个日了狗的系统 就不用WindowManager了
      * 如果在ViewGroup创建拖拽view就不能拖到全屏
+     *
      * @param rootView
      */
     public void setRootView(GridLayout rootView) {
@@ -163,6 +164,7 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
         }
         return super.dispatchTouchEvent(ev);
     }
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         // TODO Auto-generated method stub
@@ -207,7 +209,7 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
         @Override
         public void run() {
             // 根据我们按下的点显示item镜像
-            if (isOnItemClick)return;
+            if (isOnItemClick) return;
             createDragImage();
             mStartDragItemView.setVisibility(View.GONE);
         }
@@ -246,9 +248,9 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
         mStartDragItemView.getLocationOnScreen(location);
         float drX = location[0];
         float drY = location[1] - mTopHeight;
-        if(mDragImageView==null){
+        if (mDragImageView == null) {
             mDragImageView = new ImageView(getContext());
-        }else{
+        } else {
             ViewGroup parent = (ViewGroup) mDragImageView.getParent();
             if (parent != null) {
                 parent.removeView(mDragImageView);// 先移除
@@ -285,6 +287,7 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
 
     /**
      * 交换item
+     *
      * @param moveX
      * @param moveY
      */
@@ -409,7 +412,7 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
      */
     public void animateReorder(int oldPosition, int newPosition) {
         boolean isForward = newPosition > oldPosition;
-        final List<Animator> resultList = new LinkedList<Animator>();
+        List<Animator> resultList = new LinkedList<Animator>();
         if (isForward) {
             for (int pos = oldPosition + 1; pos <= newPosition; pos++) {
                 View view = getChildAt(pos);
@@ -420,24 +423,14 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
                     float scale = w / view.getWidth();
                     resultList.add(createTranslationAnimations(view, 0, -(view.getWidth() + padding + mSpacing + h), 0,
                             h + mSpacing, scale, scale));
-                    swap(images, pos, pos - 1);
                 }
-                if (pos == 2) {
+                if (pos == 2 || pos == 3) {
                     resultList.add(createTranslationAnimations(view, 0, 0, 0, -(view.getWidth() + padding)));
-                    swap(images, pos, pos - 1);
                 }
-                if (pos == 3) {
-                    resultList.add(createTranslationAnimations(view, 0, 0, 0, -(view.getWidth() + padding)));
-                    swap(images, pos, pos - 1);
-                }
-                if (pos == 4) {
+                if (pos == 4 || pos == 5) {
                     resultList.add(createTranslationAnimations(view, 0, view.getWidth() + padding, 0, 0));
-                    swap(images, pos, pos - 1);
                 }
-                if (pos == 5) {
-                    resultList.add(createTranslationAnimations(view, 0, view.getWidth() + padding, 0, 0));
-                    swap(images, pos, pos - 1);
-                }
+                swap(images, pos, pos - 1);
             }
         } else {
             for (int pos = newPosition; pos < oldPosition; pos++) {
@@ -450,16 +443,10 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
                     resultList.add(createTranslationAnimations(view, 0,
                             getChildAt(1).getWidth() + padding + mSpacing + h, 0, -(h + mSpacing), scale, scale));
                 }
-                if (pos == 1) {
+                if (pos == 1 || pos == 2) {
                     resultList.add(createTranslationAnimations(view, 0, 0, 0, view.getWidth() + padding));
                 }
-                if (pos == 2) {
-                    resultList.add(createTranslationAnimations(view, 0, 0, 0, view.getWidth() + padding));
-                }
-                if (pos == 3) {
-                    resultList.add(createTranslationAnimations(view, 0, -(view.getWidth() + padding), 0, 0));
-                }
-                if (pos == 4) {
+                if (pos == 3 || pos == 4) {
                     resultList.add(createTranslationAnimations(view, 0, -(view.getWidth() + padding), 0, 0));
                 }
             }
@@ -509,7 +496,6 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
         public void onItemClick(View view, int position, boolean Photo);
 
     }
-
 
 
     public void onResume() {

@@ -28,9 +28,9 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener,
     public void onInit(Bundle savedInstanceState) {
         setContentView(R.layout.activity_album);
         mAlbumListView = getId(R.id.imageListView);
-        mAlbumListView.setRootView((GridLayout) getId(R.id.Rootlayout));
-
         msetUserInfoLayout = getId(R.id.setUserInfoLayout);
+
+        mAlbumListView.setRootView((GridLayout) getId(R.id.Rootlayout));
         msetUserInfoLayout.setOnClickListener(this);
         mAlbumListView.setOnItemClickListener(this);
 
@@ -85,8 +85,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onItemClick(View view, int position, boolean Photo) {
         // TODO Auto-generated method stub
-        // Photo 照片还是空格子
-        L.showMeg("position : "+position + ",Photo : " + Photo);
+        presenter.onItemClick(view,position,Photo);
     }
 
     @Override
