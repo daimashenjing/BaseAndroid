@@ -27,5 +27,4 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.+'
     testCompile 'junit:junit:4.12'
     compile files('libs/universal-image-loader-1.9.3.jar')
-    compile files('libs/nineoldandroids.jar')
 }

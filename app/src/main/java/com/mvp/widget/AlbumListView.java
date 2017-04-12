@@ -1,8 +1,15 @@
 package com.mvp.widget;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.support.v4.view.MotionEventCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -10,8 +17,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -19,13 +33,8 @@ import android.widget.ImageView.ScaleType;
 
 import com.mvp.activity.bean.AlbumBean;
 import com.mvp.utils.ImageLoad;
+import com.mvp.utils.L;
 import com.mvp.utils.StringUtils;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.animation.PropertyValuesHolder;
-import com.nineoldandroids.view.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -36,7 +45,7 @@ import java.util.List;
  */
 public class AlbumListView extends ViewGroup implements OnTouchListener {
 
-    private List<View> views = new ArrayList<>();
+    private List<ImageView> views = new ArrayList<>();
     private List<AlbumBean> images = new ArrayList<>();
     //动画处于停止状态
     private boolean mAnimationEnd = true;
@@ -92,7 +101,8 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
 
     /**
      * 为了兼容小米那个日了狗的系统 就不用WindowManager了
-     * 如果在ViewGroup创建拖拽view就不能拖到全屏
+     * 如果本类生成view就不能拖到全屏
+     * 所以我们在最外层生成一个view传递过来
      *
      * @param rootView
      */
@@ -210,23 +220,20 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
         public void run() {
             // 根据我们按下的点显示item镜像
             if (isOnItemClick) return;
-            createDragImage();
-            mStartDragItemView.setVisibility(View.GONE);
+            if (mStartDragItemView.isShown()) {
+                createDragImage();
+                mStartDragItemView.setVisibility(View.GONE);
+            }
         }
 
     };
 
-    private Rect mTouchFrame;
+    Rect frame = new Rect();
 
     /**
      * 判断按下的位置是否在Item上 并返回Item的位置 {@link AbsListView #pointToPosition(int, int)}
      */
     public int pointToPosition(int x, int y) {
-        Rect frame = mTouchFrame;
-        if (frame == null) {
-            mTouchFrame = new Rect();
-            frame = mTouchFrame;
-        }
         int count = getChildCount();
         for (int i = count - 1; i >= 0; i--) {
             final View child = getChildAt(i);
@@ -239,6 +246,8 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
         }
         return -1;
     }
+
+    ObjectAnimator translationAnimator;
 
     /**
      * 创建拖动的镜像
@@ -259,8 +268,18 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
         mDragImageView.setImageBitmap(mDragBitmap);
         RootView.addView(mDragImageView);
         float scale = (float) (ItemWidth * 0.8 / mStartDragItemView.getWidth());
-        createTranslationAnimations(mDragImageView, drX, mDownX - dragPointX + dragOffsetX, drY,
-                mDownY - dragPointY + dragOffsetY - mTopHeight, scale, scale).setDuration(200).start();
+        float endX = mDownX - dragPointX + dragOffsetX;
+        float endY = mDownY - dragPointY + dragOffsetY - mTopHeight;
+        ObjectAnimator scaleAnimator = ObjectAnimator.ofPropertyValuesHolder(mDragImageView,
+                PropertyValuesHolder.ofFloat("scaleX", 1.0f, scale),
+                PropertyValuesHolder.ofFloat("scaleY", 1.0f, scale));
+        scaleAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        scaleAnimator.setDuration(320).start();
+        translationAnimator = ObjectAnimator.ofPropertyValuesHolder(mDragImageView,
+                PropertyValuesHolder.ofFloat("translationX", drX, endX),
+                PropertyValuesHolder.ofFloat("translationY", drY, endY));
+        translationAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        translationAnimator.setDuration(200).start();
     }
 
     /**
@@ -280,8 +299,11 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
      */
     private void onDragItem(int X, int Y) {
         if (mDragImageView != null) {
-            ViewHelper.setTranslationX(mDragImageView, X);
-            ViewHelper.setTranslationY(mDragImageView, Y);
+            if (translationAnimator != null && translationAnimator.isRunning()) {
+                translationAnimator.end();
+            }
+            ViewCompat.setTranslationX(mDragImageView, X);
+            ViewCompat.setTranslationY(mDragImageView, Y);
         }
     }
 
@@ -358,6 +380,10 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
             addView(view);
         }
         initListener();
+    }
+
+    private void onRefresh() {
+        initUI();
     }
 
     private void initListener() {
@@ -456,7 +482,9 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
         }
 
         hidePosition = newPosition;
-        resultSet = new AnimatorSet();
+        if (resultSet == null) {
+            resultSet = new AnimatorSet();
+        }
         resultSet.playTogether(resultList);
         resultSet.setDuration(150);
         resultSet.setInterpolator(new OvershootInterpolator(1.6f));
@@ -471,10 +499,9 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
             public void onAnimationEnd(Animator arg0) {
                 // TODO Auto-generated method stub
                 if (!mAnimationEnd) {
-                    initUI();
+                    onRefresh();
                     resultSet.removeAllListeners();
                     resultSet.clone();
-                    resultSet = null;
                     mDragPosition = hidePosition;
                 }
                 mAnimationEnd = true;
@@ -494,7 +521,6 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
 
     public interface OnItemClickListener {
         public void onItemClick(View view, int position, boolean Photo);
-
     }
 
 
@@ -557,13 +583,14 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
          * 如果宽或者高的测量模式非精确值
          */
         if (widthMode != MeasureSpec.EXACTLY || heightMode != MeasureSpec.EXACTLY) {
+            int mDefaultWidth = getDefaultWidth();
             // 主要设置为背景图的高度
             resWidth = getSuggestedMinimumWidth();
             // 如果未设置背景图片，则设置为屏幕宽高的默认值
-            resWidth = resWidth == 0 ? getDefaultWidth() : resWidth;
+            resWidth = resWidth == 0 ? mDefaultWidth : resWidth;
             resHeight = getSuggestedMinimumHeight();
             // 如果未设置背景图片，则设置为屏幕宽高的默认值
-            resHeight = resHeight == 0 ? getDefaultWidth() : resHeight;
+            resHeight = resHeight == 0 ? mDefaultWidth : resHeight;
         } else {
             // 如果都设置为精确值，则直接取小值；
             resWidth = resHeight = Math.min(width, height);
