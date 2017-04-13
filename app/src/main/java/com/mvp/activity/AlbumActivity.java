@@ -20,10 +20,11 @@ import java.util.List;
  * Created by HuaSao1024 on 2017/3/16.
  */
 
-public class AlbumActivity extends BaseActivity implements View.OnClickListener, AlbumListView.OnItemClickListener,AlbumView {
+public class AlbumActivity extends BaseActivity implements View.OnClickListener, AlbumListView.OnItemClickListener, AlbumView {
     private AlbumListView mAlbumListView;
     private RelativeLayout msetUserInfoLayout;
     AlbumPresenter presenter;
+
     @Override
     public void onInit(Bundle savedInstanceState) {
         setContentView(R.layout.activity_album);
@@ -35,43 +36,56 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener,
         mAlbumListView.setOnItemClickListener(this);
 
         presenter = new AlbumPresenter(this);
-        presenter.LoadList(6, getImageDate());
+        presenter.LoadList(9, getImageDate());
     }
 
     private List<AlbumBean> getImageDate() {
         // TODO Auto-generated method stub
         List<AlbumBean> mDataList = new ArrayList<>();
         AlbumBean item = new AlbumBean();
-        item.imgUrl = "drawable://" + R.mipmap.head6;
+        item.imgUrl = "drawable://" + R.mipmap.head1;
         item.id = 1;
         mDataList.add(item);
 
         item = new AlbumBean();
-        item.imgUrl = "drawable://" + R.mipmap.head7;
+        item.imgUrl = "drawable://" + R.mipmap.head2;
         item.id = 2;
         mDataList.add(item);
 
         item = new AlbumBean();
-        item.imgUrl = "drawable://" + R.mipmap.head8;
+        item.imgUrl = "drawable://" + R.mipmap.head3;
         item.id = 3;
         mDataList.add(item);
 
         item = new AlbumBean();
-        item.imgUrl = "drawable://" + R.mipmap.head9;
+        item.imgUrl = "drawable://" + R.mipmap.head4;
         item.id = 4;
         mDataList.add(item);
 
-//		item = new AlbumBean();
-//		item.imgUrl = "drawable://" + R.mipmap.head10;
-//		item.id = 5;
-//		item.sort = 5;
-//		mDataList.add(item);
-//
-//		item = new AlbumBean();
-//		item.imgUrl = "drawable://" + R.mipmap.head1;
-//		item.id = 6;
-//		item.sort = 6;
-//		mDataList.add(item);
+        item = new AlbumBean();
+        item.imgUrl = "drawable://" + R.mipmap.head5;
+        item.id = 5;
+        mDataList.add(item);
+
+        item = new AlbumBean();
+        item.imgUrl = "drawable://" + R.mipmap.head6;
+        item.id = 6;
+        mDataList.add(item);
+
+        item = new AlbumBean();
+        item.imgUrl = "drawable://" + R.mipmap.head7;
+        item.id = 7;
+        mDataList.add(item);
+
+        item = new AlbumBean();
+        item.imgUrl = "drawable://" + R.mipmap.head8;
+        item.id = 8;
+        mDataList.add(item);
+
+//        item = new AlbumBean();
+//        item.imgUrl = "drawable://" + R.mipmap.head9;
+//        item.id = 9;
+//        mDataList.add(item);
 
         return mDataList;
     }
@@ -85,7 +99,7 @@ public class AlbumActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onItemClick(View view, int position, boolean Photo) {
         // TODO Auto-generated method stub
-        presenter.onItemClick(view,position,Photo);
+        presenter.onItemClick(view, position, Photo);
     }
 
     @Override

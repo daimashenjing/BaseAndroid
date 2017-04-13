@@ -436,44 +436,83 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
      * @param oldPosition
      * @param newPosition
      */
+    boolean isAniReverse1 = true;
+    boolean isAniReverse2 = true;
+
     public void animateReorder(int oldPosition, int newPosition) {
         boolean isForward = newPosition > oldPosition;
         List<Animator> resultList = new LinkedList<Animator>();
         if (isForward) {
             for (int pos = oldPosition + 1; pos <= newPosition; pos++) {
                 View view = getChildAt(pos);
-                if (pos == 1) {
-                    float h = view.getWidth() / 2;
-                    float mSpacing = padding / 2;
-                    float w = getChildAt(0).getWidth();
-                    float scale = w / view.getWidth();
-                    resultList.add(createTranslationAnimations(view, 0, -(view.getWidth() + padding + mSpacing + h), 0,
-                            h + mSpacing, scale, scale));
-                }
-                if (pos == 2 || pos == 3) {
-                    resultList.add(createTranslationAnimations(view, 0, 0, 0, -(view.getWidth() + padding)));
-                }
-                if (pos == 4 || pos == 5) {
-                    resultList.add(createTranslationAnimations(view, 0, view.getWidth() + padding, 0, 0));
+                if (pos < 6) {
+                    if (pos == 1) {
+                        float h = view.getWidth() / 2;
+                        float mSpacing = padding / 2;
+                        float w = getChildAt(0).getWidth();
+                        float scale = w / view.getWidth();
+                        resultList.add(createTranslationAnimations(view, 0, -(view.getWidth() + padding + mSpacing + h), 0,
+                                h + mSpacing, scale, scale));
+                    }
+                    if (pos == 2 || pos == 3) {
+                        resultList.add(createTranslationAnimations(view, 0, 0, 0, -(view.getWidth() + padding)));
+                    }
+                    if (pos == 4 || pos == 5) {
+                        resultList.add(createTranslationAnimations(view, 0, view.getWidth() + padding, 0, 0));
+                    }
+                } else {
+                    if (pos % 3 == 0) {
+                        if (pos % 6 == 0) {
+                            isAniReverse1 = true;
+                        } else {
+                            isAniReverse1 = false;
+                        }
+                        resultList.add(createTranslationAnimations(view, 0, 0, 0, -(view.getWidth() + padding)));
+                    } else {
+                        if (isAniReverse1) {
+                            resultList.add(createTranslationAnimations(view, 0, -view.getWidth() + padding, 0, 0));
+                        } else {
+                            resultList.add(createTranslationAnimations(view, 0, view.getWidth() + padding, 0, 0));
+                        }
+                    }
+
+
                 }
                 swap(images, pos, pos - 1);
             }
         } else {
             for (int pos = newPosition; pos < oldPosition; pos++) {
                 View view = getChildAt(pos);
-                if (pos == 0) {
-                    float h = getChildAt(1).getWidth() / 2;
-                    float mSpacing = padding / 2;
-                    float w = getChildAt(0).getWidth();
-                    float scale = getChildAt(1).getWidth() / w;
-                    resultList.add(createTranslationAnimations(view, 0,
-                            getChildAt(1).getWidth() + padding + mSpacing + h, 0, -(h + mSpacing), scale, scale));
-                }
-                if (pos == 1 || pos == 2) {
-                    resultList.add(createTranslationAnimations(view, 0, 0, 0, view.getWidth() + padding));
-                }
-                if (pos == 3 || pos == 4) {
-                    resultList.add(createTranslationAnimations(view, 0, -(view.getWidth() + padding), 0, 0));
+                if (pos < 5) {
+                    if (pos == 0) {
+                        float h = getChildAt(1).getWidth() / 2;
+                        float mSpacing = padding / 2;
+                        float w = getChildAt(0).getWidth();
+                        float scale = getChildAt(1).getWidth() / w;
+                        resultList.add(createTranslationAnimations(view, 0,
+                                getChildAt(1).getWidth() + padding + mSpacing + h, 0, -(h + mSpacing), scale, scale));
+                    }
+                    if (pos == 1 || pos == 2) {
+                        resultList.add(createTranslationAnimations(view, 0, 0, 0, view.getWidth() + padding));
+                    }
+                    if (pos == 3 || pos == 4) {
+                        resultList.add(createTranslationAnimations(view, 0, -(view.getWidth() + padding), 0, 0));
+                    }
+                } else {
+                    if ((pos + 1) % 3 == 0) {
+                        if ((pos + 1) % 6 == 0) {
+                            isAniReverse2 = true;
+                        } else {
+                            isAniReverse2 = false;
+                        }
+                        resultList.add(createTranslationAnimations(view, 0, 0, 0, view.getWidth() + padding));
+                    } else {
+                        if (isAniReverse2) {
+                            resultList.add(createTranslationAnimations(view, 0, (view.getWidth() + padding), 0, 0));
+                        } else {
+                            resultList.add(createTranslationAnimations(view, 0, -(view.getWidth() + padding), 0, 0));
+                        }
+                    }
                 }
             }
             for (int i = oldPosition; i > newPosition; i--) {
@@ -536,6 +575,11 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
 
     }
 
+    int mItemCount = 1;
+    boolean isReverse = false;
+    int mViewHeight = 0;
+
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         // TODO Auto-generated method stub
@@ -556,7 +600,17 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
             }
             if (i >= 3) {
                 view.layout(l, t, l + ItemWidth, t + ItemWidth);
-                l -= ItemWidth + padding;
+                if (mItemCount % 3 == 0) {
+                    isReverse = !isReverse;
+                    t += ItemWidth + padding;
+                } else {
+                    if (isReverse) {
+                        l += ItemWidth + padding;
+                    } else {
+                        l -= ItemWidth + padding;
+                    }
+                }
+                mItemCount++;
             }
 
             if (i == hidePosition) {
@@ -564,6 +618,7 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
                 mStartDragItemView = view;
             }
         }
+        mViewHeight = t;
     }
 
     @Override
@@ -583,14 +638,14 @@ public class AlbumListView extends ViewGroup implements OnTouchListener {
          * 如果宽或者高的测量模式非精确值
          */
         if (widthMode != MeasureSpec.EXACTLY || heightMode != MeasureSpec.EXACTLY) {
-            int mDefaultWidth = getDefaultWidth();
             // 主要设置为背景图的高度
             resWidth = getSuggestedMinimumWidth();
             // 如果未设置背景图片，则设置为屏幕宽高的默认值
-            resWidth = resWidth == 0 ? mDefaultWidth : resWidth;
+            resWidth = resWidth == 0 ? getDefaultWidth() : resWidth;
             resHeight = getSuggestedMinimumHeight();
+            L.e("asd", "asdasd:" + resHeight);
             // 如果未设置背景图片，则设置为屏幕宽高的默认值
-            resHeight = resHeight == 0 ? mDefaultWidth : resHeight;
+            resHeight = resHeight == 0 ? mViewHeight : resHeight;
         } else {
             // 如果都设置为精确值，则直接取小值；
             resWidth = resHeight = Math.min(width, height);
