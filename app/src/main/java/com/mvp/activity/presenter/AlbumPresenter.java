@@ -30,18 +30,22 @@ public class AlbumPresenter {
 
     public void LoadList(int maxNum, List<AlbumBean> Datas) {
         List<AlbumBean> items = new ArrayList<>();
-        if (Datas != null) {
-            items.addAll(Datas);
+        int position = 0;
+        int len = Datas != null ? Datas.size() : 0;
+        for (int i = 0; (i < len && i < maxNum); i++) {
+            position++;
+            items.add(Datas.get(i));
         }
         //添加null
-        for (int i = Datas == null ? 0 : Datas.size(); i < maxNum; i++) {
+        while (position < maxNum) {
+            position++;
             items.add(new AlbumBean());
         }
         albumModel.setList(items);
         albumView.loadData(albumModel.getList());
     }
 
-    public void onItemClick(View view, int position, boolean Photo){
-        L.showMeg("position : "+position + ",Photo : " + Photo);
+    public void onItemClick(View view, int position, boolean Photo) {
+        L.showMeg("position : " + position + ",Photo : " + Photo);
     }
 }

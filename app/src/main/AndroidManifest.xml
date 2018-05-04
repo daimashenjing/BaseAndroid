@@ -3,23 +3,30 @@
     package="com.mvp.app">
 
     <application
+        android:name=".BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:persistent="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".BaseApplication">
-        <activity android:name="com.mvp.activity.TestActivity">
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.mvp.activity.TestActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.mvp.activity.AlbumActivity">
+        <activity
+            android:name="com.mvp.activity.AlbumActivity"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.mvp.activity.MVPActivity">
+        <activity
+            android:name="com.mvp.activity.MVPActivity"
+            android:screenOrientation="portrait">
 
         </activity>
     </application>

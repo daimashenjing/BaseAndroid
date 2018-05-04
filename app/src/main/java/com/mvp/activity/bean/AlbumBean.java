@@ -10,5 +10,4 @@ package com.mvp.activity.bean;
 public class AlbumBean {
     public int id;
     public String imgUrl;
-
 }
